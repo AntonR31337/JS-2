@@ -74,57 +74,57 @@ goodsList.getTotalPrice();
 
 // гамбургерная
 
-const burgers = [
-  {title: "Большой", price: 100, fat: 40 },
-  {title: "Маленький", price: 50, fat: 20 },
-];
-const garnears = [
-  {title: "Сыр", price: 10, fat: 20 },
-  {title: "Салат", price: 20, fat: 5 },
-  {title: "Картофель", price: 15, fat: 10 },
-]
-const topings = [
-  {title: "Приправа", price: 15, fat: 0 },
-  {title: "Майонез", price: 20, fat: 5 },
-];
+  // const burgers = [
+  //   {title: "Большой", price: 100, fat: 40 },
+  //   {title: "Маленький", price: 50, fat: 20 },
+  // ];
+  // const garnears = [
+  //   {title: "Сыр", price: 10, fat: 20 },
+  //   {title: "Салат", price: 20, fat: 5 },
+  //   {title: "Картофель", price: 15, fat: 10 },
+  // ]
+  // const topings = [
+  //   {title: "Приправа", price: 15, fat: 0 },
+  //   {title: "Майонез", price: 20, fat: 5 },
+  // ];
 
-class MakeOrder {
-  constructor(title){
-    this.title = title;
-    this.price = 0;
-    this.fat = 0;
-  }
-  calc(item){
-    this.price += item.price;
-    this.fat += item.fat;
-  }
-  chooseBurger(item){
-    // this.burger = item;
-    burgers.map((item) => {
-      if (item.title == this.title){
-        this.calc(item);
-      }
-    })
-    this.addGarnear();
-  }
-  addGarnear(){
-    const garnear = prompt('Каклй гарнир положить?');
-    garnears.map((item) => {
-      if (item.title === garnear) {
-        this.calc(item);
-      }
-    })
-    this.addToping()
-  }
-  addToping(){
-    topings.map((item) => {
-     if ( confirm(`Добавить ${item.title} ?`)) {
-       this.calc(item);
-     }
-    })
-  }
-}
+  // class MakeOrder {
+  //   constructor(title){
+  //     this.title = title;
+  //     this.price = 0;
+  //     this.fat = 0;
+  //   }
+  //   calc(item){
+  //     this.price += item.price;
+  //     this.fat += item.fat;
+  //   }
+  //   chooseBurger(item){
+  //     // this.burger = item;
+  //     burgers.map((item) => {
+  //       if (item.title == this.title){
+  //         this.calc(item);
+  //       }
+  //     })
+  //     this.addGarnear();
+  //   }
+  //   addGarnear(){
+  //     const garnear = prompt('Каклй гарнир положить?');
+  //     garnears.map((item) => {
+  //       if (item.title === garnear) {
+  //         this.calc(item);
+  //       }
+  //     })
+  //     this.addToping()
+  //   }
+  //   addToping(){
+  //     topings.map((item) => {
+  //     if ( confirm(`Добавить ${item.title} ?`)) {
+  //       this.calc(item);
+  //     }
+  //     })
+  //   }
+  // }
 
-const newOrder = new MakeOrder("Маленький");
-newOrder.chooseBurger();
-console.log(newOrder);
+  // const newOrder = new MakeOrder("Маленький");
+  // newOrder.chooseBurger();
+  // console.log(newOrder);
