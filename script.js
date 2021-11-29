@@ -19,6 +19,7 @@ const reformData = (item) => {
 
 const URL = "https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses";
 const GOODS_POSTFIX = "/catalogData.json";
+const BASKET_POSTFIX = "/getBasket.json";
   const service = function(url, postfix) {
     return new Promise((resolve, reject) => {
       fetch(`${url}${postfix}`).then((res)=> {
@@ -29,13 +30,19 @@ const GOODS_POSTFIX = "/catalogData.json";
   })
 }
 
-class CartItems {
+class Basket {
   constructor(title, price) {
     this.title = title;
     this.price = price;
     this.count = 0;
   }
-  addToCart() {
+  getBasket() {
+    // Получаем json корзины 
+    return service(URL, BASKET_POSTFIX).then((data)=> {
+      return reformData(data)
+    });
+  }
+  addToBaket() {
     // добавляем товары в корзину с проверкой повторяющихся позиций
   }
   removeItems() {
@@ -98,6 +105,9 @@ class GoodsList {
 const goodsList = new GoodsList();
 goodsList.render();
 goodsList.getTotalPrice();
+
+const cart = new Basket;
+cart.getBasket();
 
 
 // промисы
