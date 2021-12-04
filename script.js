@@ -20,9 +20,12 @@ const reformData = (item) => {
 const URL = "https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses";
 const GOODS_POSTFIX = "/catalogData.json";
 const BASKET_POSTFIX = "/getBasket.json";
-  const service = function(url, postfix) {
+const ADD_TO_BASKET_POSTFIX = "/addToBasket.json";
+const DELETE_FROM_BASKET_POSTFIX = "/deleteFromBasket.json";
+
+  const service = function(url, postfix, method = "GET") {
     return new Promise((resolve, reject) => {
-      fetch(`${url}${postfix}`).then((res)=> {
+      fetch(`${url}${postfix}`, {method}).then((res)=> {
         return res.json();
     }).then((date)=> {
       resolve(date)
@@ -39,17 +42,15 @@ class Basket {
   getBasket() {
     // Получаем json корзины 
     return service(URL, BASKET_POSTFIX).then((data)=> {
-      return reformData(data)
+      this.goods = reformData(data.contents);
+      console.log(this.goods);
     });
   }
-  addToBaket() {
-    // добавляем товары в корзину с проверкой повторяющихся позиций
-  }
-  removeItems() {
-    //  удаляем товары из корзины
-  }
-  showTotalPrice() {
-    // подсчитываем общую сумму
+  delGoodsFromBasket(id){
+    debugger
+    return service(URL, `${DELETE_FROM_BASKET_POSTFIX}/${id}`, "DELETE").then((data)=> {
+      return reformData(data)
+    });
   }
 }
 
@@ -70,6 +71,13 @@ class GoodsItem {
 }
 
 class GoodsList {
+  addGoodsToBasket(){
+    debugger
+    return service(URL, ADD_TO_BASKET_POSTFIX, "POST").then((data)=> {
+      return reformData(data)
+    });
+  }
+
   setGoods(){
     return service(URL, GOODS_POSTFIX).then((data)=> {
       return reformData(data)
@@ -108,9 +116,22 @@ goodsList.getTotalPrice();
 
 const cart = new Basket;
 cart.getBasket();
+cart.delGoodsFromBasket("10010110100");
 
 
 // промисы
+
+// const prom = new Promise((resolve, reject)=>{
+//   setTimeout((data)=>{
+//     data = 123;
+//     return data
+//   }, 3000)
+// });
+
+// prom.then((data)=> {
+//   console.log("data");
+// });
+
 
 // const prom = fetch("https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/catalogData.json");
 
