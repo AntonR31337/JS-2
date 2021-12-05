@@ -1,13 +1,5 @@
 "use strict"
 
-// const goods = [
-//   { title: 'Shirt', price: 150 },
-//   { title: 'Socks', price: 50 },
-//   { title: 'Jacket', price: 350 },
-//   { title: 'Shoes', price: 250 },
-//   {},
-// ];
-
 const reformData = (item) => {
   return item.map(({product_name, ...rest}) => {
     return {
@@ -47,7 +39,6 @@ class Basket {
     });
   }
   delGoodsFromBasket(id){
-    debugger
     return service(URL, `${DELETE_FROM_BASKET_POSTFIX}/${id}`, "DELETE").then((data)=> {
       return reformData(data)
     });
@@ -72,7 +63,6 @@ class GoodsItem {
 
 class GoodsList {
   addGoodsToBasket(){
-    debugger
     return service(URL, ADD_TO_BASKET_POSTFIX, "POST").then((data)=> {
       return reformData(data)
     });
@@ -118,28 +108,14 @@ const cart = new Basket;
 cart.getBasket();
 cart.delGoodsFromBasket("10010110100");
 
+// регулярные выражения
 
-// промисы
+  const text = "Lorem 'ipsum' dolor sit, amet consectetur adipisicing elit. Tempore placeat eaque totam, blanditiis 'temporibus vel' sunt consequuntur. Amet quos delectus exercitationem non ratione animi placeat nulla ipsa eveniet, 'blanditiis aperiam voluptates' sit, alias aspernatur nihil. Adipisci nihil eos optio, maxime atque nam, voluptatibus placeat, 'inventore id' recusandae est nulla itaque ";
 
-// const prom = new Promise((resolve, reject)=>{
-//   setTimeout((data)=>{
-//     data = 123;
-//     return data
-//   }, 3000)
-// });
+  const re = /'/g;
 
-// prom.then((data)=> {
-//   console.log("data");
-// });
+  const result = text.replace(re, "\"");
 
-
-// const prom = fetch("https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/catalogData.json");
-
-// prom.then((res) => {
-//   return res.json()
-// }).then((date) => {
-
-// })
 
 
 // гамбургерная
