@@ -110,11 +110,12 @@ cart.delGoodsFromBasket("10010110100");
 
 // регулярные выражения
 
-  const text = "Lorem 'ipsum' dolor sit, amet consectetur adipisicing elit. Tempore placeat eaque totam, blanditiis 'temporibus vel' sunt consequuntur. Amet quos delectus exercitationem non ratione animi placeat nulla ipsa eveniet, 'blanditiis aperiam voluptates' sit, alias aspernatur nihil. Adipisci nihil eos optio, maxime atque nam, voluptatibus placeat, 'inventore id' recusandae est nulla itaque ";
+  const text = "Lorem i'm a person who 'ipsum' dolor sit, amet consectetur adipisicing elit. Tempore placeat eaque totam, blanditiis 'temporibus vel' sunt consequuntur. Amet quos delectus exercitationem non ratione animi placeat nulla ipsa eveniet, 'blanditiis aperiam voluptates' sit, alias aspernatur nihil. Adipisci nihil eos optio, maxime atque nam, voluptatibus placeat, 'inventore id' recusandae est nulla itaque ";
 
   const re = /'/g;
+  const re2 = /\b'(?!\b)|(?<!\b)'\b/gi;
 
-  const result = text.replace(re, "\"");
+  const result = text.replace(re2, "\"");
 
 
 
