@@ -53,7 +53,7 @@ class GoodsItem {
   render() {
     return `
           <div class="goods-item">
-            <img class="goods-item__img" src="img/${this.title}.jpg" alt="goods_image">
+            <img class="goods-item__img" src="" alt="goods_image">
             <h3>${this.title}</h3>
             <p>${this.price}</p>
           </div>
@@ -62,6 +62,19 @@ class GoodsItem {
 }
 
 class GoodsList {
+  constructor(){
+    const searchBtn = document.getElementById('search');
+    searchBtn.addEventListener('click', () => {
+      this.filteredGoods().preventDefault();
+    })
+  }
+  filteredGoods(){
+    const input = document.getElementsByClassName('search-text')[0];
+    this.filterGoods = this.goods.filter(({ title })=>{
+      return new RegExp(input.value).test(title);
+    })
+    this.render();
+  }
   addGoodsToBasket(){
     return service(URL, ADD_TO_BASKET_POSTFIX, "POST").then((data)=> {
       return reformData(data)
@@ -70,19 +83,18 @@ class GoodsList {
 
   setGoods(){
     return service(URL, GOODS_POSTFIX).then((data)=> {
-      return reformData(data)
+      const result = reformData(data);
+      this.goods = result;
+      this.filterGoods = result;
     });
   }
   render() {
-    this.setGoods().then((data)=> {
-      this.goods = data;
-      const _goods = [...this.goods];
+    const _goods = [...this.filterGoods];
     const _goodsItems = _goods.map((item) => {
       const goodsItem = new GoodsItem(item);
       return goodsItem.render();
     })
       document.querySelector('.goods-list').innerHTML = _goodsItems.join("");
-    });
   }
   getTotalPrice() {
     let totalSumm = 0;
@@ -101,21 +113,24 @@ class GoodsList {
 };
 
 const goodsList = new GoodsList();
-goodsList.render();
+goodsList.setGoods().then(()=>{
+  goodsList.render();
+});
 goodsList.getTotalPrice();
 
 const cart = new Basket;
 cart.getBasket();
 cart.delGoodsFromBasket("10010110100");
 
+
 // регулярные выражения
 
-  const text = "Lorem i'm a person who 'ipsum' dolor sit, amet consectetur adipisicing elit. Tempore placeat eaque totam, blanditiis 'temporibus vel' sunt consequuntur. Amet quos delectus exercitationem non ratione animi placeat nulla ipsa eveniet, 'blanditiis aperiam voluptates' sit, alias aspernatur nihil. Adipisci nihil eos optio, maxime atque nam, voluptatibus placeat, 'inventore id' recusandae est nulla itaque ";
+  // const text = "Lorem i'm a person who 'ipsum' dolor sit, amet consectetur adipisicing elit. Tempore placeat eaque totam, blanditiis 'temporibus vel' sunt consequuntur. Amet quos delectus exercitationem non ratione animi placeat nulla ipsa eveniet, 'blanditiis aperiam voluptates' sit, alias aspernatur nihil. Adipisci nihil eos optio, maxime atque nam, voluptatibus placeat, 'inventore id' recusandae est nulla itaque ";
 
-  const re = /'/g;
-  const re2 = /\b'(?!\b)|(?<!\b)'\b/gi;
+  // const re = /'/g;
+  // const re2 = /\b'(?!\b)|(?<!\b)'\b/gi;
 
-  const result = text.replace(re2, "\"");
+  // const result = text.replace(re2, "\"");
 
 
 

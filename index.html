@@ -8,10 +8,14 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="conteiner">
+    <div class="conteiner" id="app">
         <header>
-            <div class="wrapper">
+            <div class="wrapper header">
                 <button class="cart-button" type="button"><img src="img/cart.svg" alt="cart_image"></button>
+                <form class="search">
+                    <input class="search-text" type="text" placeholder="Что ищешь?">
+                    <button id="search" class="search-btn">Искать!</button>
+                </form>
             </div>
         </header>
         <main class="wrapper">
@@ -24,6 +28,7 @@
             </div>
         </footer>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
