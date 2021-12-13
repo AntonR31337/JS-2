@@ -22,13 +22,15 @@ const DELETE_FROM_BASKET_POSTFIX = "/deleteFromBasket.json";
 
   const service = function(url, postfix, method ="GET") {
     return new Promise((resolve, reject) => {
-      fetch(`${url}${postfix}`, {
-        method
-      }).then((res) => {
-        return res.json();
-      }).then((data) => {
-        resolve(data)
-      })
+      setTimeout(() => {
+        fetch(`${url}${postfix}`, {
+          method
+        }).then((res) => {
+          return res.json();
+        }).then((data) => {
+          resolve(data)
+        })
+      }, 3000)
     });
   }
 
