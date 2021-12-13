@@ -50,6 +50,20 @@ header{
                 }
         }
 }
+.cart {
+    width: 650px;
+    min-height: 150px;
+    background-color: white;
+    border: solid 1px gray;
+    border-radius: 5px;
+    position: absolute;
+    left: 33%;
+    top: 30%;
+    z-index: 1000;
+        &__title {
+            text-align: center;
+        }
+}
 .cart-button {
     background: transparent;
         & img {
@@ -57,6 +71,15 @@ header{
                 &:hover {
                     transform: scale(1.2);
                 }
+        }
+}
+.close-btn {
+    margin: 5px;
+    font-size: large;
+    transition: 0.1s;
+        &:hover {
+            transform: scale(1.1);
+            color: red;
         }
 }
 main {
