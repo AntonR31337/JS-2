@@ -123,6 +123,16 @@ header {
           transform: scale(1.2);
 }
 
+.basket_items-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  border-bottom: solid 1px;
+}
+
 .close-btn {
   margin: 5px;
   font-size: large;

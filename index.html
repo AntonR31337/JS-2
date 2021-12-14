@@ -13,10 +13,7 @@
 
 <body>
     <div class="conteiner" id="app">
-        <div class="cart" v-if="basketVision">
-            <button v-on:click="closeBasket" class="close-btn">X</button>
-            <h3 class="cart__title">Корзина</h3>
-        </div>
+        <basket v-if="basketVision" @close="closeBasket"></basket>
         <header>
             <div class="wrapper header">
                 <button v-on:click="showBasket" class="cart-button" type="button"><img src="img/cart.svg" alt="cart_image"></button>

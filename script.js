@@ -54,7 +54,60 @@ class BasketItem {
   render() {}
 }
 
+
+
 onload = () => {
+  Vue.component('basket-item', {
+    props: ['item'],
+    template: `
+    <div>
+      <div class="basket_items">
+        <div class="basket_items-item">
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.price }}</p>
+          <close-button></close-button>
+        </div>
+        <hr>
+      </div>
+    </div>
+    `
+  })
+  Vue.component('close-button', {
+    props: ['click'],
+    template: `
+      <button v-on:click="$emit('click')" class="close-btn">X</button>
+    `
+  })
+
+  Vue.component('basket', {
+    props: ['close'],
+    data: function () {
+      return {
+        basketGoods: [],
+      }
+    },
+    template: `
+      <div class="cart">
+        <h3 class="cart__title">Корзина</h3>
+        <close-button @click="$emit('close')"></close-button>
+        <div>
+          <basket-item v-for="item in basketGoods" :item="item"></basket-item>
+        </div>
+      </div>
+    `,
+    mounted() {
+      service(URL, BASKET_POSTFIX).then((data) => {
+        const result = reformData(data.contents);
+        this.basketGoods = result;
+      });
+    },
+    methods: {
+      fu: function () {
+        basketVision = false
+      }
+    }
+  })
+
   const app = new Vue({
     el: "#app",
     data: {
@@ -77,7 +130,11 @@ onload = () => {
         });
       },
       showBasket() {
-        this.basketVision = true
+        if (this.basketVision != true) {
+          this.basketVision = true
+        } else {
+          this.closeBasket.call()
+        }
       },
       closeBasket() {
         this.basketVision = false
