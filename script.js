@@ -30,7 +30,7 @@ const DELETE_FROM_BASKET_POSTFIX = "/deleteFromBasket.json";
         }).then((data) => {
           resolve(data)
         })
-      }, 3000)
+      }, 1000)
     });
   }
 
@@ -57,6 +57,21 @@ class BasketItem {
 
 
 onload = () => {
+  Vue.component('search', {
+    props: ['click', 'filter'],
+    data: function () {
+      return {
+        filteredGoods: [],
+        search: '',
+      }
+    },
+    template: `
+      <div class="search">
+        <input v-model="search" class="search-text" type="text" placeholder="Что ищешь?">
+        <button id="search" v-on:click="$emit('click', search)" class="search-btn">Искать!</button>
+      </div>
+    `,
+  })
   Vue.component('basket-item', {
     props: ['item'],
     template: `
@@ -124,7 +139,9 @@ onload = () => {
       });
     },
     methods: {
-      filter() {
+      filter(event) {
+        debugger
+        this.search = event;
         this.filteredGoods = this.goods.filter(({ title })=>{
           return new RegExp(this.search, "i").test(title);
         });

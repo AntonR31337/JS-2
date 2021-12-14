@@ -17,10 +17,7 @@
         <header>
             <div class="wrapper header">
                 <button v-on:click="showBasket" class="cart-button" type="button"><img src="img/cart.svg" alt="cart_image"></button>
-                <div class="search">
-                    <input v-model="search" class="search-text" type="text" placeholder="Что ищешь?">
-                    <button id="search" v-on:click="filter" class="search-btn">Искать!</button>
-                </div>
+                <search v-on:click="filter"></search>
             </div>
         </header>
         <main class="wrapper">
