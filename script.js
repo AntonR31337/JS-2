@@ -1,24 +1,17 @@
-const goods = [
-  { title: 'Shirt', price: 150 },
-  { title: 'Socks', price: 50 },
-  { title: 'Jacket', price: 350 },
-  { title: 'Shoes', price: 250 },
-];
-
-const reformData = (item) => {
-  return item.map(({product_name, ...rest}) => {
-    return {
-      ...rest,
-      title: product_name
-    }
-  })
-}
-
-const URL = "https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses";
-const GOODS_POSTFIX = "/catalogData.json";
+const URL = "http://localhost:8000";
+const GOODS_POSTFIX = "/goods.json";
 const BASKET_POSTFIX = "/getBasket.json";
 const ADD_TO_BASKET_POSTFIX = "/addToBasket.json";
 const DELETE_FROM_BASKET_POSTFIX = "/deleteFromBasket.json";
+
+const fetchAddGood = (id) => {
+  fetch(`${URL}/${id}`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+}
 
   const service = function(url, postfix, method ="GET") {
     return new Promise((resolve, reject) => {
@@ -37,7 +30,7 @@ const DELETE_FROM_BASKET_POSTFIX = "/deleteFromBasket.json";
 class Basket {
   setGoods() {
     return service(URL, BASKET_POSTFIX).then((data) => {
-      this.goods = reformData(data.contents);
+      this.goods = data;
     });
   }
 deleteGoodToBasket(id) {
@@ -71,6 +64,34 @@ onload = () => {
         <button id="search" v-on:click="$emit('click', search)" class="search-btn">Искать!</button>
       </div>
     `,
+  })
+  Vue.component('custom-button', {
+    props: ['click'],
+    template: `
+      <button @click="$emit('click')">
+        <slot></slot>
+      </button>
+    `
+  })
+  Vue.component('goods-item', {
+    props: ['item'],
+    template: `
+      <div>
+        <div class="goods-item">
+          <img class="goods-item__img" src="" alt="goods_image">
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.price }}</p>
+          <div>
+            <custom-button @click="addGood">Добавить</custom-button>
+          </div>
+        </div>
+      </div>
+    `,
+    methods: {
+      addGood() {
+        fetchAddGood(this.item.id);
+      }
+    }
   })
   Vue.component('basket-item', {
     props: ['item'],
@@ -112,7 +133,7 @@ onload = () => {
     `,
     mounted() {
       service(URL, BASKET_POSTFIX).then((data) => {
-        const result = reformData(data.contents);
+        const result = data.contents;
         this.basketGoods = result;
       });
     },
@@ -133,14 +154,12 @@ onload = () => {
     },
     mounted() {
       service(URL, GOODS_POSTFIX).then((data) => {
-        const result = reformData(data);
-        this.goods = result;
-        this.filteredGoods = result;
+        this.goods = data;
+        this.filteredGoods = data;
       });
     },
     methods: {
       filter(event) {
-        debugger
         this.search = event;
         this.filteredGoods = this.goods.filter(({ title })=>{
           return new RegExp(this.search, "i").test(title);
