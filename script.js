@@ -13,6 +13,14 @@ const fetchAddGood = (id) => {
   })
 }
 
+const fetchAddBaketGoods = () => {
+  return fetch(`${URL}/basketgoods`).then((res) => {
+    return res.json();
+  }).then((data) => {
+    return data
+  })
+}
+
   const service = function(url, postfix, method ="GET") {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -101,6 +109,7 @@ onload = () => {
         <div class="basket_items-item">
           <h3>{{ item.title }}</h3>
           <p>{{ item.price }}</p>
+          <p>{{ item.count }}</p>
           <close-button></close-button>
         </div>
         <hr>
@@ -132,10 +141,9 @@ onload = () => {
       </div>
     `,
     mounted() {
-      service(URL, BASKET_POSTFIX).then((data) => {
-        const result = data.contents;
-        this.basketGoods = result;
-      });
+      fetchAddBaketGoods().then((data) => {
+        this.basketGoods = data;
+      })
     },
     methods: {
       fu: function () {
