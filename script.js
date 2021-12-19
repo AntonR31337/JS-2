@@ -12,8 +12,16 @@ const fetchAddGood = (id) => {
     }
   })
 }
+const fetchDeleteGood = (id) => {
+  fetch(`${URL}/${id}`, {
+    method: 'DELETE',
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+}
 
-const fetchAddBaketGoods = () => {
+const fetchAddBasketGoods = () => {
   return fetch(`${URL}/basketgoods`).then((res) => {
     return res.json();
   }).then((data) => {
@@ -31,7 +39,7 @@ const fetchAddBaketGoods = () => {
         }).then((data) => {
           resolve(data)
         })
-      }, 1000)
+      }, 1)
     });
   }
 
@@ -41,11 +49,11 @@ class Basket {
       this.goods = data;
     });
   }
-deleteGoodToBasket(id) {
-  return service(URL, `${ADD_TO_BASKET_POSTFIX}/${id}`, "DELETE").then((data) => {
+// deleteGoodToBasket(id) {
+//   return service(URL, `${ADD_TO_BASKET_POSTFIX}/${id}`, "DELETE").then((data) => {
 
-  });
-}
+//   });
+// }
 setVision() {}
 render() {}
 }
@@ -110,12 +118,17 @@ onload = () => {
           <h3>{{ item.title }}</h3>
           <p>{{ item.price }}</p>
           <p>{{ item.count }}</p>
-          <close-button></close-button>
+          <close-button @click="deleteGood"></close-button>
         </div>
         <hr>
       </div>
     </div>
-    `
+    `,
+    methods: {
+      deleteGood() {
+        fetchDeleteGood(this.item.id);
+      }
+    }
   })
   Vue.component('close-button', {
     props: ['click'],
@@ -141,7 +154,7 @@ onload = () => {
       </div>
     `,
     mounted() {
-      fetchAddBaketGoods().then((data) => {
+      fetchAddBasketGoods().then((data) => {
         this.basketGoods = data;
       })
     },

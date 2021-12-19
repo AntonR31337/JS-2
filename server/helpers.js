@@ -57,6 +57,37 @@ addGood = (id) => new Promise((reject, resolve) => {
     }
 });
 
+// delete item from basket
+deleteGood = (id) => new Promise((reject, resolve) => {
+    try {
+        getAllFromFile(BASKET_GOODS).then((_items) => {
+            let items = [..._items];
+            if (
+                items.some((item) => {
+                    return item.id == id;
+                })
+            ) {
+                items = items.map((item) => {
+                    if (item.id == id && item.count > 0) {
+                        return {
+                            ...item,
+                            count: item.count - 1
+                        }
+                    } else {
+                        return items.splite(0,1);
+                    }
+                })
+            }
+            writeFromAllFile(items).then(() => {
+                resolve(items)
+            })
+        });
+    } catch (err) {
+        console.log(err);
+        reject(err);
+    }
+});
+
 const getBasketGoods = () => new Promise((resolve, reject) => {
     Promise.all([
         getAllFromFile(BASKET_GOODS),
@@ -81,5 +112,6 @@ const getBasketGoods = () => new Promise((resolve, reject) => {
 
 module.exports = {
     addGood,
+    deleteGood,
     getBasketGoods
 }

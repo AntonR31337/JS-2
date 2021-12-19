@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { addGood, getBasketGoods } = require('./helpers');
+const { addGood, deleteGood, getBasketGoods } = require('./helpers');
 
 const app = express();
 app.use(cors());
@@ -12,6 +12,18 @@ app.get('/basketgoods', (req, res) => {
         res.send(data);
     });
 });
+
+// delete items from basket
+app.delete('/:id', (req, res) => {
+    deleteGood(req.params.id).then(() => {
+        getBasketGoods().then((data) => {
+            res.send(data);
+        });
+    }).catch((err) => {
+        res.send(err);
+    })
+});
+
 app.get('/', (req, res) => {
     res.send('hello!');
 });
