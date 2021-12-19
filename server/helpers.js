@@ -68,15 +68,18 @@ deleteGood = (id) => new Promise((reject, resolve) => {
                 })
             ) {
                 items = items.map((item) => {
-                    if (item.id == id && item.count > 0) {
+                    if (item.id == id && item.count > 1) {
                         return {
                             ...item,
                             count: item.count - 1
                         }
                     } else {
-                        return items.splite(0,1);
+                        // items.splice(items.indexOf(item), 1,);
+                        return item;
                     }
-                })
+                });
+            } else {
+                items.splice(items.indexOf(item), 1,);
             }
             writeFromAllFile(items).then(() => {
                 resolve(items)
