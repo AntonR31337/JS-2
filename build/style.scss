@@ -1,0 +1,122 @@
+* {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+html,body {
+    height: 100%;
+    color: #5D5D5D;
+    background-color: #fef6d9;
+}
+.conteiner {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.wrapper {
+    max-width: 1140px;
+    margin: 0 auto;
+}
+.header{
+    display: flex;
+    justify-content: space-between;
+}
+header{
+    background: #222222;
+    color: #fff;
+    padding: 18px 0;
+    margin-bottom: 30px;
+}
+.search{
+    display: flex;
+        &-text{
+            padding: 5px;
+            outline: none;
+            transition: 0.3s;
+            border-right: solid 1px;
+                &:hover{
+                    outline: solid 1px red;
+                    border-right: solid 1px red;
+                }
+                &::placeholder{
+                    text-align: center;
+                    opacity: 0.5;
+                }
+        }
+        &-btn{
+            padding: 5px;
+            transition: 0.3s;
+                &:hover{
+                    color: red;
+                }
+        }
+}
+.cart {
+    width: 650px;
+    min-height: 150px;
+    background-color: white;
+    border: solid 1px gray;
+    border-radius: 5px;
+    position: absolute;
+    left: 33%;
+    top: 30%;
+    z-index: 1000;
+        &__title {
+            text-align: center;
+        }
+}
+.cart-button {
+    background: transparent;
+        & img {
+            transition: 0.3s;
+                &:hover {
+                    transform: scale(1.2);
+                }
+        }
+}
+.basket_items-item {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: solid 1px;
+    
+}
+.close-btn {
+    margin: 5px;
+    font-size: large;
+    transition: 0.1s;
+        &:hover {
+            transform: scale(1.1);
+            color: red;
+        }
+}
+main {
+    flex: 1 1 auto;
+}
+.goods-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: space-between;
+}
+.goods-item {
+    background: #F8F8F8;
+    min-width: 180px;
+    min-height: 290px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    padding: 5px;
+        &__img {
+            background-color: #fff;
+            border: solid 2px #F8F8F8;
+            width: 100%;
+            height: 150px;
+        }
+}
+footer{
+    background-color: #222222;
+    color: white;
+    padding: 18px 0;
+}

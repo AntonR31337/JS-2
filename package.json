@@ -1,0 +1,25 @@
+{
+  "name": "js-2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "jest",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AntonR31337/JS-2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AntonR31337/JS-2/issues"
+  },
+  "homepage": "https://github.com/AntonR31337/JS-2#readme",
+  "devDependencies": {
+    "jest": "^27.4.5",
+    "webpack-cli": "^4.9.1"
+  }
+}
