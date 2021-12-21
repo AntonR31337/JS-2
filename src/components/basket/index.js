@@ -1,4 +1,4 @@
-import {fetchAddBasketGoods} from "../../services";
+import {fetchAddBasketGoods} from '../../services';
 
 export default Vue.component('basket', {
     props: ['close'],

@@ -1,11 +1,6 @@
-import {fetchAddGood, fetchDeleteGood, fetchAddBasketGoods} from './services';
-// import * from './components/basket';
-
-const URL = "http://localhost:8000";
-const GOODS_POSTFIX = "/goods.json";
-const BASKET_POSTFIX = "/getBasket.json";
-const ADD_TO_BASKET_POSTFIX = "/addToBasket.json";
-const DELETE_FROM_BASKET_POSTFIX = "/deleteFromBasket.json";
+import {fetchAddGood, fetchDeleteGood } from './services';
+import { URL, GOODS_POSTFIX, BASKET_POSTFIX, ADD_TO_BASKET_POSTFIX, DELETE_FROM_BASKET_POSTFIX } from './constants';
+import * as basket from './components/basket';
 
   const service = function(url, postfix, method ="GET") {
     return new Promise((resolve, reject) => {
@@ -21,25 +16,25 @@ const DELETE_FROM_BASKET_POSTFIX = "/deleteFromBasket.json";
     });
   }
 
-class Basket {
-  setGoods() {
-    return service(URL, BASKET_POSTFIX).then((data) => {
-      this.goods = data;
-    });
-  }
-// deleteGoodToBasket(id) {
-//   return service(URL, `${ADD_TO_BASKET_POSTFIX}/${id}`, "DELETE").then((data) => {
+// class Basket {
+//   setGoods() {
+//     return service(URL, BASKET_POSTFIX).then((data) => {
+//       this.goods = data;
+//     });
+//   }
+// // deleteGoodToBasket(id) {
+// //   return service(URL, `${ADD_TO_BASKET_POSTFIX}/${id}`, "DELETE").then((data) => {
 
-//   });
+// //   });
+// // }
+// setVision() {}
+// render() {}
 // }
-setVision() {}
-render() {}
-}
-class BasketItem {
-  setCount() {}
-  deleteItem() {}
-  render() {}
-}
+// class BasketItem {
+//   setCount() {}
+//   deleteItem() {}
+//   render() {}
+// }
 
 
 
@@ -114,8 +109,6 @@ onload = () => {
       <button v-on:click="$emit('click')" class="close-btn">X</button>
     `
   })
-
-
 
   const app = new Vue({
     el: "#app",
