@@ -22,12 +22,15 @@
         </header>
         <main class="wrapper">
             <div v-if="!!filteredGoods.length" class="goods-list">
+                <goods-item v-for="item in filteredGoods" v-bind:item="item"></goods-item>
+            </div>
+            <!-- <div v-if="!!filteredGoods.length" class="goods-list">
                 <div class="goods-item" v-for="item in filteredGoods">
                     <img class="goods-item__img" src="" alt="goods_image">
                     <h3>{{ item.title }}</h3>
                     <p>{{ item.price }}</p>
                 </div>
-            </div>
+            </div> -->
             <img v-else src="img/loading.gif" alt="">
         </main>
         <footer>

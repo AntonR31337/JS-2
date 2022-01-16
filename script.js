@@ -1,24 +1,33 @@
-const goods = [
-  { title: 'Shirt', price: 150 },
-  { title: 'Socks', price: 50 },
-  { title: 'Jacket', price: 350 },
-  { title: 'Shoes', price: 250 },
-];
+const URL = "http://localhost:8000";
+const GOODS_POSTFIX = "/goods.json";
+const BASKET_POSTFIX = "/getBasket.json";
+const ADD_TO_BASKET_POSTFIX = "/addToBasket.json";
+const DELETE_FROM_BASKET_POSTFIX = "/deleteFromBasket.json";
 
-const reformData = (item) => {
-  return item.map(({product_name, ...rest}) => {
-    return {
-      ...rest,
-      title: product_name
+const fetchAddGood = (id) => {
+  fetch(`${URL}/${id}`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+}
+const fetchDeleteGood = (id) => {
+  fetch(`${URL}/${id}`, {
+    method: 'DELETE',
+    headers: {
+      "Content-Type": "application/json"
     }
   })
 }
 
-const URL = "https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses";
-const GOODS_POSTFIX = "/catalogData.json";
-const BASKET_POSTFIX = "/getBasket.json";
-const ADD_TO_BASKET_POSTFIX = "/addToBasket.json";
-const DELETE_FROM_BASKET_POSTFIX = "/deleteFromBasket.json";
+const fetchAddBasketGoods = () => {
+  return fetch(`${URL}/basketgoods`).then((res) => {
+    return res.json();
+  }).then((data) => {
+    return data
+  })
+}
 
   const service = function(url, postfix, method ="GET") {
     return new Promise((resolve, reject) => {
@@ -30,21 +39,21 @@ const DELETE_FROM_BASKET_POSTFIX = "/deleteFromBasket.json";
         }).then((data) => {
           resolve(data)
         })
-      }, 1000)
+      }, 1)
     });
   }
 
 class Basket {
   setGoods() {
     return service(URL, BASKET_POSTFIX).then((data) => {
-      this.goods = reformData(data.contents);
+      this.goods = data;
     });
   }
-deleteGoodToBasket(id) {
-  return service(URL, `${ADD_TO_BASKET_POSTFIX}/${id}`, "DELETE").then((data) => {
+// deleteGoodToBasket(id) {
+//   return service(URL, `${ADD_TO_BASKET_POSTFIX}/${id}`, "DELETE").then((data) => {
 
-  });
-}
+//   });
+// }
 setVision() {}
 render() {}
 }
@@ -72,6 +81,34 @@ onload = () => {
       </div>
     `,
   })
+  Vue.component('custom-button', {
+    props: ['click'],
+    template: `
+      <button @click="$emit('click')">
+        <slot></slot>
+      </button>
+    `
+  })
+  Vue.component('goods-item', {
+    props: ['item'],
+    template: `
+      <div>
+        <div class="goods-item">
+          <img class="goods-item__img" src="" alt="goods_image">
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.price }}</p>
+          <div>
+            <custom-button @click="addGood">Добавить</custom-button>
+          </div>
+        </div>
+      </div>
+    `,
+    methods: {
+      addGood() {
+        fetchAddGood(this.item.id);
+      }
+    }
+  })
   Vue.component('basket-item', {
     props: ['item'],
     template: `
@@ -80,12 +117,18 @@ onload = () => {
         <div class="basket_items-item">
           <h3>{{ item.title }}</h3>
           <p>{{ item.price }}</p>
-          <close-button></close-button>
+          <p>{{ item.count }}</p>
+          <close-button @click="deleteGood"></close-button>
         </div>
         <hr>
       </div>
     </div>
-    `
+    `,
+    methods: {
+      deleteGood() {
+        fetchDeleteGood(this.item.id);
+      }
+    }
   })
   Vue.component('close-button', {
     props: ['click'],
@@ -111,10 +154,9 @@ onload = () => {
       </div>
     `,
     mounted() {
-      service(URL, BASKET_POSTFIX).then((data) => {
-        const result = reformData(data.contents);
-        this.basketGoods = result;
-      });
+      fetchAddBasketGoods().then((data) => {
+        this.basketGoods = data;
+      })
     },
     methods: {
       fu: function () {
@@ -133,14 +175,12 @@ onload = () => {
     },
     mounted() {
       service(URL, GOODS_POSTFIX).then((data) => {
-        const result = reformData(data);
-        this.goods = result;
-        this.filteredGoods = result;
+        this.goods = data;
+        this.filteredGoods = data;
       });
     },
     methods: {
       filter(event) {
-        debugger
         this.search = event;
         this.filteredGoods = this.goods.filter(({ title })=>{
           return new RegExp(this.search, "i").test(title);
