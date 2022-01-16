@@ -1,4 +1,9 @@
-"use strict"
+const goods = [
+  { title: 'Shirt', price: 150 },
+  { title: 'Socks', price: 50 },
+  { title: 'Jacket', price: 350 },
+  { title: 'Shoes', price: 250 },
+];
 
 const reformData = (item) => {
   return item.map(({product_name, ...rest}) => {
@@ -15,163 +20,66 @@ const BASKET_POSTFIX = "/getBasket.json";
 const ADD_TO_BASKET_POSTFIX = "/addToBasket.json";
 const DELETE_FROM_BASKET_POSTFIX = "/deleteFromBasket.json";
 
-  const service = function(url, postfix, method = "GET") {
+  const service = function(url, postfix, method ="GET") {
     return new Promise((resolve, reject) => {
-      fetch(`${url}${postfix}`, {method}).then((res)=> {
+      fetch(`${url}${postfix}`, {
+        method
+      }).then((res) => {
         return res.json();
-    }).then((date)=> {
-      resolve(date)
-    })
-  })
-}
+      }).then((data) => {
+        resolve(data)
+      })
+    });
+  }
 
 class Basket {
-  constructor(title, price) {
-    this.title = title;
-    this.price = price;
-    this.count = 0;
-  }
-  getBasket() {
-    // Получаем json корзины 
-    return service(URL, BASKET_POSTFIX).then((data)=> {
+  setGoods() {
+    return service(URL, BASKET_POSTFIX).then((data) => {
       this.goods = reformData(data.contents);
-      console.log(this.goods);
     });
   }
-  delGoodsFromBasket(id){
-    return service(URL, `${DELETE_FROM_BASKET_POSTFIX}/${id}`, "DELETE").then((data)=> {
-      return reformData(data)
-    });
-  }
+deleteGoodToBasket(id) {
+  return service(URL, `${ADD_TO_BASKET_POSTFIX}/${id}`, "DELETE").then((data) => {
+
+  });
+}
+setVision() {}
+render() {}
+}
+class BasketItem {
+  setCount() {}
+  deleteItem() {}
+  render() {}
 }
 
-class GoodsItem {
-  constructor({ title = "Вакантно", price = 0 }) {
-    this.title = title;
-    this.price = price;
-  }
-  render() {
-    return `
-          <div class="goods-item">
-            <img class="goods-item__img" src="img/${this.title}.jpg" alt="goods_image">
-            <h3>${this.title}</h3>
-            <p>${this.price}</p>
-          </div>
-        `;
-  }
+onload = () => {
+  const app = new Vue({
+    el: "#app",
+    data: {
+      goods: [],
+      filteredGoods: [],
+      search: '',
+      basketVision: false
+    },
+    mounted() {
+      service(URL, GOODS_POSTFIX).then((data) => {
+        const result = reformData(data);
+        this.goods = result;
+        this.filteredGoods = result;
+      });
+    },
+    methods: {
+      filter() {
+        this.filteredGoods = this.goods.filter(({ title })=>{
+          return new RegExp(this.search, "i").test(title);
+        });
+      },
+      showBasket() {
+        this.basketVision = true
+      },
+      closeBasket() {
+        this.basketVision = false
+      }
+    }
+  })
 }
-
-class GoodsList {
-  addGoodsToBasket(){
-    return service(URL, ADD_TO_BASKET_POSTFIX, "POST").then((data)=> {
-      return reformData(data)
-    });
-  }
-
-  setGoods(){
-    return service(URL, GOODS_POSTFIX).then((data)=> {
-      return reformData(data)
-    });
-  }
-  render() {
-    this.setGoods().then((data)=> {
-      this.goods = data;
-      const _goods = [...this.goods];
-    const _goodsItems = _goods.map((item) => {
-      const goodsItem = new GoodsItem(item);
-      return goodsItem.render();
-    })
-      document.querySelector('.goods-list').innerHTML = _goodsItems.join("");
-    });
-  }
-  getTotalPrice() {
-    let totalSumm = 0;
-    service(URL, GOODS_POSTFIX).then((data)=> {
-      data.map((item) => {
-        if (item.price == undefined) {
-          item.price = 0;
-          return item.price
-        }
-        this.price = item.price
-        totalSumm += this.price;
-      })
-      console.log(`Стоимость всех товаров ${totalSumm} у.е.`);
-    });
-  }
-};
-
-const goodsList = new GoodsList();
-goodsList.render();
-goodsList.getTotalPrice();
-
-const cart = new Basket;
-cart.getBasket();
-cart.delGoodsFromBasket("10010110100");
-
-// регулярные выражения
-
-  const text = "Lorem i'm a person who 'ipsum' dolor sit, amet consectetur adipisicing elit. Tempore placeat eaque totam, blanditiis 'temporibus vel' sunt consequuntur. Amet quos delectus exercitationem non ratione animi placeat nulla ipsa eveniet, 'blanditiis aperiam voluptates' sit, alias aspernatur nihil. Adipisci nihil eos optio, maxime atque nam, voluptatibus placeat, 'inventore id' recusandae est nulla itaque ";
-
-  const re = /'/g;
-  const re2 = /\b'(?!\b)|(?<!\b)'\b/gi;
-
-  const result = text.replace(re2, "\"");
-
-
-
-// гамбургерная
-
-  // const burgers = [
-  //   {title: "Большой", price: 100, fat: 40 },
-  //   {title: "Маленький", price: 50, fat: 20 },
-  // ];
-  // const garnears = [
-  //   {title: "Сыр", price: 10, fat: 20 },
-  //   {title: "Салат", price: 20, fat: 5 },
-  //   {title: "Картофель", price: 15, fat: 10 },
-  // ]
-  // const topings = [
-  //   {title: "Приправа", price: 15, fat: 0 },
-  //   {title: "Майонез", price: 20, fat: 5 },
-  // ];
-
-  // class MakeOrder {
-  //   constructor(title){
-  //     this.title = title;
-  //     this.price = 0;
-  //     this.fat = 0;
-  //   }
-  //   calc(item){
-  //     this.price += item.price;
-  //     this.fat += item.fat;
-  //   }
-  //   chooseBurger(item){
-  //     // this.burger = item;
-  //     burgers.map((item) => {
-  //       if (item.title == this.title){
-  //         this.calc(item);
-  //       }
-  //     })
-  //     this.addGarnear();
-  //   }
-  //   addGarnear(){
-  //     const garnear = prompt('Каклй гарнир положить?');
-  //     garnears.map((item) => {
-  //       if (item.title === garnear) {
-  //         this.calc(item);
-  //       }
-  //     })
-  //     this.addToping()
-  //   }
-  //   addToping(){
-  //     topings.map((item) => {
-  //     if ( confirm(`Добавить ${item.title} ?`)) {
-  //       this.calc(item);
-  //     }
-  //     })
-  //   }
-  // }
-
-  // const newOrder = new MakeOrder("Маленький");
-  // newOrder.chooseBurger();
-  // console.log(newOrder);

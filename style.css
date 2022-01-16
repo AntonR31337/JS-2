@@ -27,10 +27,84 @@ html, body {
   margin: 0 auto;
 }
 
+.header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
 header {
   background: #222222;
   color: #fff;
   padding: 18px 0;
+}
+
+.search {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.search-text {
+  padding: 5px;
+  outline: none;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  border-right: solid 1px;
+}
+
+.search-text:hover {
+  outline: solid 1px red;
+  border-right: solid 1px red;
+}
+
+.search-text::-webkit-input-placeholder {
+  text-align: center;
+  opacity: 0.5;
+}
+
+.search-text:-ms-input-placeholder {
+  text-align: center;
+  opacity: 0.5;
+}
+
+.search-text::-ms-input-placeholder {
+  text-align: center;
+  opacity: 0.5;
+}
+
+.search-text::placeholder {
+  text-align: center;
+  opacity: 0.5;
+}
+
+.search-btn {
+  padding: 5px;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.search-btn:hover {
+  color: red;
+}
+
+.cart {
+  width: 650px;
+  min-height: 150px;
+  background-color: white;
+  border: solid 1px gray;
+  border-radius: 5px;
+  position: absolute;
+  left: 33%;
+  top: 30%;
+  z-index: 1000;
+}
+
+.cart__title {
+  text-align: center;
 }
 
 .cart-button {
@@ -45,6 +119,19 @@ header {
 .cart-button img:hover {
   -webkit-transform: scale(1.2);
           transform: scale(1.2);
+}
+
+.close-btn {
+  margin: 5px;
+  font-size: large;
+  -webkit-transition: 0.1s;
+  transition: 0.1s;
+}
+
+.close-btn:hover {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+  color: red;
 }
 
 main {

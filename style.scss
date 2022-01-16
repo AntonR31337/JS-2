@@ -17,10 +17,52 @@ html,body {
     max-width: 1140px;
     margin: 0 auto;
 }
+.header{
+    display: flex;
+    justify-content: space-between;
+}
 header{
     background: #222222;
     color: #fff;
     padding: 18px 0;
+}
+.search{
+    display: flex;
+        &-text{
+            padding: 5px;
+            outline: none;
+            transition: 0.3s;
+            border-right: solid 1px;
+                &:hover{
+                    outline: solid 1px red;
+                    border-right: solid 1px red;
+                }
+                &::placeholder{
+                    text-align: center;
+                    opacity: 0.5;
+                }
+        }
+        &-btn{
+            padding: 5px;
+            transition: 0.3s;
+                &:hover{
+                    color: red;
+                }
+        }
+}
+.cart {
+    width: 650px;
+    min-height: 150px;
+    background-color: white;
+    border: solid 1px gray;
+    border-radius: 5px;
+    position: absolute;
+    left: 33%;
+    top: 30%;
+    z-index: 1000;
+        &__title {
+            text-align: center;
+        }
 }
 .cart-button {
     background: transparent;
@@ -29,6 +71,15 @@ header{
                 &:hover {
                     transform: scale(1.2);
                 }
+        }
+}
+.close-btn {
+    margin: 5px;
+    font-size: large;
+    transition: 0.1s;
+        &:hover {
+            transform: scale(1.1);
+            color: red;
         }
 }
 main {
