@@ -9,6 +9,7 @@
 html, body {
   height: 100%;
   color: #5D5D5D;
+  background-color: #fef6d9;
 }
 
 .conteiner {
@@ -40,6 +41,7 @@ header {
   background: #222222;
   color: #fff;
   padding: 18px 0;
+  margin-bottom: 30px;
 }
 
 .search {
@@ -119,6 +121,16 @@ header {
 .cart-button img:hover {
   -webkit-transform: scale(1.2);
           transform: scale(1.2);
+}
+
+.basket_items-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  border-bottom: solid 1px;
 }
 
 .close-btn {

@@ -13,27 +13,22 @@
 
 <body>
     <div class="conteiner" id="app">
-        <div class="cart" v-if="basketVision">
-            <button v-on:click="closeBasket" class="close-btn">X</button>
-            <h3 class="cart__title">Корзина</h3>
-        </div>
+        <basket v-if="basketVision" @close="closeBasket"></basket>
         <header>
             <div class="wrapper header">
                 <button v-on:click="showBasket" class="cart-button" type="button"><img src="img/cart.svg" alt="cart_image"></button>
-                <div class="search">
-                    <input v-model="search" class="search-text" type="text" placeholder="Что ищешь?">
-                    <button id="search" v-on:click="filter" class="search-btn">Искать!</button>
-                </div>
+                <search v-on:click="filter"></search>
             </div>
         </header>
         <main class="wrapper">
-            <div class="goods-list">
+            <div v-if="!!filteredGoods.length" class="goods-list">
                 <div class="goods-item" v-for="item in filteredGoods">
                     <img class="goods-item__img" src="" alt="goods_image">
                     <h3>{{ item.title }}</h3>
                     <p>{{ item.price }}</p>
                 </div>
             </div>
+            <img v-else src="img/loading.gif" alt="">
         </main>
         <footer>
             <div class="wrapper">
