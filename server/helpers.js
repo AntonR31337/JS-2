@@ -79,7 +79,7 @@ deleteGood = (id) => new Promise((reject, resolve) => {
                     }
                 });
             } else {
-                items.splice(items.indexOf(item), 1,);
+                this.items.splice(this.items.indexOf(item), 1,);
             }
             writeFromAllFile(items).then(() => {
                 resolve(items)
